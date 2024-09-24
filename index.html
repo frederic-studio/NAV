@@ -11,9 +11,7 @@
     <header>
         <nav>
 
-          <a href="#main" class="keyboard-navigation">
-              <p>Appuyer<kbd>Enter</kbd>pour aller directement au contenu principal</p>
-          </a>
+          <button onclick="findNextFocusableElementOutsideNav()" class="keyboard-navigation">Skip-content</button>
 
           <a href="#">
             <img src="icon/logo.svg" alt="Logo fictif">
@@ -170,9 +168,9 @@
           telles qu'un bouton "skip-content" et un contrôle explicite des sous-menus.
         </p>
         
-        <H3>
+        <H2>
           Navigation au clavier
-        </H3>
+        </H2>
         
         <p>
           Une des premières étapes pour rendre une navigation accessible est de permettre une interaction 
@@ -180,38 +178,92 @@
           de la souris. Voici les points essentiels à respecter :
         </p>
 
-        <ol class="text">
-          <li>
-            Bouton "skip-content" : Il est important d'ajouter un bouton de type "skip-content" au tout 
-            début de la page. Ce bouton permet aux utilisateurs de clavier de sauter directement au 
-            contenu principal sans devoir parcourir l'ensemble de la navigation. Ce bouton doit être 
-            le premier élément à recevoir le focus lorsqu’on utilise la touche Tab.
+        <h3>Rediriger l'utilisateur</h3>
+        <p>
+          La navigation au clavier est essentielle pour l'accessibilité de votre site web. 
+          Les utilisateurs qui ne peuvent pas ou ne souhaitent pas utiliser une souris doivent 
+          pouvoir accéder facilement au contenu principal sans avoir à parcourir tout le menu de navigation. 
+          C'est dans ce contexte que les boutons "Accéder au contenu" prennent tout leur sens.
+        </p>
 
+        <p>
+          <b>Solution 1 : Lien ancré vers le contenu principal</b> <br>
+          Une première solution simple 
+          consiste à utiliser un lien ancré pointant directement vers le contenu principal. 
+          Pour que ce lien fonctionne, il ne faut pas oublier d'ajouter l'identifiant "#main"
+          au /
+        </p>
 
+        <code class="code-sample">
+          <div class="code-sample-type">HTML</div>
+          <button onclick="pasteCode()">
+            Copier le code
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+          </button>
+          <pre class="language-html code">
+            &#x3C;a href=&#x22;#main&#x22;&#x3E;
+              &#x3C;p&#x3E;Accéder au contenu&#x3C;/p&#x3E;
+            &#x3C;/a&#x3E;
+          </pre>
+        </code>
+
+        <p>
+          <b>Solution 2 : Bouton avec fonction de focus</b> <br>
+          Une autre approche consiste à utiliser un bouton qui, lorsqu'il est activé, met automatiquement 
+          le focus sur le premier élément en dehors de la zone de navigation. Cela permet à l'utilisateur 
+          de continuer sa navigation à partir de là.
+        </p>
+
+        <code class="code-sample">
+          <div class="code-sample-type">Javascript</div>
+          <button onclick="pasteCode()">
+            Copier le code
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+          </button>
+          <pre class="language-javascript code">
+            function findNextFocusableElementOutsideNav() {
+              const focusableElements = 
+              document.querySelectorAll('a, button, input, textarea, [tabindex="0"]');
               
-           
+              for (const element of focusableElements) {
+                if (!element.closest('nav')) {
+                  element.focus();
+                  break;
+                }
+              }
+            }            
+          </pre>
+        </code>
+            
+        <p>
+          Quel que soit la solution choisie, il est important de cacher ces boutons par défaut 
+          (en les positionnant hors-écran ou en les rendant invisibles) et de les faire apparaître 
+          uniquement lorsque l'utilisateur navigue au clavier. Cela peut être fait en utilisant le 
+          sélecteur CSS <code>:focus-visible</code>, qui permet de passer d'une opacité de 0 à 1 lorsque 
+          l'élément est focalisé via le clavier.
+        </p>
 
-          </li>
-          <li>
+          <h3>Button dropdown</h3>
+          <p>
+            Si un élément de la navigation 
+            primaire ouvre un sous-menu au survol (hover), il est essentiel de fournir un contrôle 
+            explicite au clavier. Pour cela, chaque lien qui déclenche un sous-menu doit inclure un 
+            bouton accessible via Tab pour que les utilisateurs de clavier puissent ouvrir et naviguer 
+            dans le sous-menu. Cette approche assure une parité entre les interactions souris et clavier.
+          </p>
+          <p>
             Contrôle des sous-menus via un bouton : La sous-navigation ne doit être accessible que 
             lorsque celle-ci a été affichée volontairement par un bouton dropdown. En d'autres termes, 
             les éléments de la sous-navigation ne doivent pas être dans le flux de navigation du clavier 
             tant que l'utilisateur n'a pas activé le menu via un bouton associé. Cela améliore 
             l'expérience utilisateur en évitant de "tabuler" à travers des éléments non visibles ou 
             non pertinents.
-          </li>
-          <li>
-            Contrôle des sous-menus ouverts au hover via un bouton : Si un élément de la navigation 
-            primaire ouvre un sous-menu au survol (hover), il est essentiel de fournir un contrôle 
-            explicite au clavier. Pour cela, chaque lien qui déclenche un sous-menu doit inclure un 
-            bouton accessible via Tab pour que les utilisateurs de clavier puissent ouvrir et naviguer 
-            dans le sous-menu. Cette approche assure une parité entre les interactions souris et clavier.
-          </li>
-        </ol>
+          </p>
 
-        <h3>
+
+        <h2>
           Utilisation des attributs ARIA
-        </h3>
+        </h2>
         <p>
           Les attributs ARIA (Accessible Rich Internet Applications) permettent de rendre des interfaces 
           interactives plus compréhensibles pour les lecteurs d'écran. Quelques attributs essentiels pour 
@@ -261,5 +313,35 @@
     </div>
     <script src="js/nav.js"></script>
     <script src="js/prism.js"></script>
+    <script>
+        // Fonction pour normaliser le contenu des balises <pre>
+          function normalizePreContent(preElement) {
+            const lines = preElement.textContent.split('\n');
+            
+            // Supprimer les lignes vides au début et à la fin
+            while (lines[0].trim() === '') {
+                lines.shift();
+            }
+            while (lines[lines.length - 1].trim() === '') {
+                lines.pop();
+            }
+            
+            // Trouver l'indentation minimale et normaliser chaque ligne
+            const minIndent = Math.min(...lines.map(line => line.match(/^\s*/)[0].length));
+            const normalizedLines = lines.map(line => line.slice(minIndent));
+            
+            // Remplacer le contenu du <pre> avec les lignes normalisées
+            preElement.textContent = normalizedLines.join('\n');
+        }
+
+        // Sélectionner tous les éléments avec la classe "code"
+        const preElements = document.querySelectorAll('.code');
+
+        // Appliquer la normalisation à chaque <pre> et faire le highlight
+        preElements.forEach(pre => {
+            normalizePreContent(pre);
+            Prism.highlightElement(pre);
+        });
+    </script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 @font-face {
     font-family: Geist Mono;
-    src: url(GeistMonoVF.woff2);
+    src: url(../fonts/GeistMonoVF.woff2);
 }
 
 code[class*="language-"],
 pre[class*="language-"] {
-	background: hsl(230, 1%, 98%);
+	background: rgb(250, 250, 250);
 	color: hsl(230, 8%, 24%);
 	font-family: Geist Mono, "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 	direction: ltr;
@@ -21,10 +21,9 @@ pre[class*="language-"] {
 	-moz-hyphens: none;
 	-ms-hyphens: none;
 	hyphens: none;
+	scrollbar-color: #e6e6e6 rgb(250, 250, 250);
 }
 
-
-  
 
 /* Selection */
 code[class*="language-"]::-moz-selection,
@@ -34,19 +33,12 @@ pre[class*="language-"] *::-moz-selection {
 	color: inherit;
 }
 
-code[class*="language-"]::selection,
-code[class*="language-"] *::selection,
-pre[class*="language-"] *::selection {
-	background: hsl(230, 1%, 90%);
-	color: inherit;
-}
 
 /* Code blocks */
 pre[class*="language-"] {
-	padding: 1em;
+	padding: 1rem;
 	margin: 0;
 	overflow: auto;
-	border-radius: 0.3em;
 }
 
 /* Inline code */

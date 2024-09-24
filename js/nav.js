@@ -108,3 +108,14 @@ function staggerElements(elements, className, delay, method) {
     });
 }
 
+function findNextFocusableElementOutsideNav() {
+    const focusableElements = document.querySelectorAll('a, button, input, textarea, [tabindex="0"]');
+    
+    for (const element of focusableElements) {
+      if (!element.closest('nav')) {
+        element.focus();
+        break;
+      }
+    }
+  }
+  
