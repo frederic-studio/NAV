@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/prism.css">
+  </head>
+<body>
+    <header>
+        <nav>
+
+          <a href="#main" class="keyboard-navigation">
+              <p>Appuyer<kbd>Enter</kbd>pour aller directement au contenu principal</p>
+          </a>
+
+          <a href="#">
+            <img src="icon/logo.svg" alt="Logo fictif">
+          </a>
+          
+          <button id="menu" onclick="displayNavigation()">
+            <p style="font-size: 0;">Button toggle navigation on mobile</p>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M160-240q-17 0-28.5-11.5T120-280q0-17 11.5-28.5T160-320h640q17 0 28.5 11.5T840-280q0 17-11.5 28.5T800-240H160Zm0-200q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520h640q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440H160Zm0-200q-17 0-28.5-11.5T120-680q0-17 11.5-28.5T160-720h640q17 0 28.5 11.5T840-680q0 17-11.5 28.5T800-640H160Z"/></svg>
+          </button>
+
+          <ul class="navigation">
+              <li>
+                <div class="navigation-link-dropdown" onmouseenter="displaySubNav(this)">
+                  <a href="https://www.youtube.com/watch?v=gZXZ6ZXQ6d0&list=RDMMLZnWfXIIYZg&index=6" class="link-level-01">
+                    Composant 
+                  </a> 
+                  <button class="keyboard-dropdown" aria-expanded="false" aria-label="Toggle Subnavigation" onclick="toggleSubNav(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                      <path d="M480-361q-8 0-15-2.5t-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5Z"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <ul class="subnavigation-container" aria-disabled="true">
+                  <li>
+                    <h6>Texte</h6>
+                    <ul class="subnavigation">
+                      <li><a href="#">Segment de texte</a></li>
+                      <li><a href="#">Tags et liens</a></li>
+                      <li><a href="#">Hiérarchie typographique</a></li>
+                      <li><a href="#">Élément HTML</a></li>
+                      <li><a href="#" class="seeall">Voir l'ensemble</a></li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <h6>Composant</h6>
+                    <ul class="subnavigation">
+                      <li><a href="#">Composant de navigation</a></li>
+                      <li><a href="#">Composant interactif</a></li>
+                      <li><a href="#">Composant dynamique</a></li>
+                      <li><a href="#">Composant pour blog</a></li>
+                      <li><a href="#">Composant pour commerce</a></li>
+                      <li><a href="#" class="seeall">Voir l'ensemble</a></li>
+                    </ul>
+                  </li>
+                  
+                  <li>
+                    <h6>Contrôle</h6>
+                    <ul class="subnavigation">
+                      <li><a href="#">Formulaire</a></li>
+                      <li><a href="#">Carte intéractive</a></li>
+                      <li><a href="#">Intéraction Input</a></li>
+                      <li><a href="#" class="seeall">Voir l'ensemble</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              
+              
+              <li>
+                <div class="navigation-link-dropdown" onmouseenter="displaySubNav(this)">
+                  <a href="#43">
+                    Documentations 
+                  </a> 
+                  <button class="keyboard-dropdown" aria-expanded="false" aria-label="Toggle Subnavigation" onclick="toggleSubNav(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                      <path d="M480-361q-8 0-15-2.5t-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5Z"/>
+                    </svg>
+                  </button>
+              </div>
+              
+              
+                  <ul class="subnavigation-container" aria-disabled="true">
+                    <li>
+                      <h6>Accessiblité</h6>
+                      <ul class="subnavigation">
+                        <li><a href="#">WAI-Aria</a></li>
+                        <li><a href="#">Navigation clavier</a></li>
+                        <li><a href="#">Texte alternatif</a></li>
+                        <li><a href="#">Animation réduite</a></li>
+                        <li><a href="#" class="seeall">Voir l'ensemble</a></li>
+                      </ul>
+                    </li>
+                    
+                    <li>
+                      <h6>Implantation</h6>
+                      <ul class="subnavigation">
+                        <li><a href="#">CSS Root</a></li>
+                        <li><a href="#">Javascript</a></li>
+                        <li><a href="#">HTML</a></li>
+                        <li><a href="#">langage</a></li>
+                        <li><a href="#" class="seeall">Voir l'ensemble</a></li>
+                      </ul>
+                    </li>
+                    
+                    <li>
+                      <h6>Adaptation</h6>
+                      <ul class="subnavigation">
+                        <li><a href="#">Couleur</a></li>
+                        <li><a href="#">Font</a></li>
+                        <li><a href="#">Mode éclairage</a></li>
+                        <li><a href="#">Animation</a></li>
+                        <li><a href="#">Intéractivité</a></li>
+                        <li><a href="#" class="seeall">Voir l'ensemble</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+             
+
+              </li>
+
+              <li>
+                <div class="navigation-link-dropdown" onmouseenter="displaySubNav(this)">
+                  <a href="#43">
+                    À propos
+                  </a> 
+                  <button class="keyboard-dropdown" aria-expanded="false" aria-label="Toggle Subnavigation" onclick="toggleSubNav(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                      <path d="M480-361q-8 0-15-2.5t-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5Z"/>
+                    </svg>
+                  </button>
+              </div>
+              </li>
+              <li>
+                <div class="navigation-link-dropdown" onmouseenter="displaySubNav(this)">
+                  <a href="#43">
+                    Assistance
+                  </a> 
+                  <button class="keyboard-dropdown" aria-expanded="false" aria-label="Toggle Subnavigation" onclick="toggleSubNav(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                      <path d="M480-361q-8 0-15-2.5t-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5Z"/>
+                    </svg>
+                  </button>
+              </div>
+              </li>
+            </ul>
+          </nav>
+              
+    </header>
+
+    <div id="main">
+      <div class="texte">
+        <h1>
+          Faire une navigation complexe en restant accessible
+        </h1>
+        <p>
+          Lorsqu'on crée une navigation complexe pour un site web, il est essentiel de veiller à ce 
+          que celle-ci soit accessible à tous les utilisateurs, y compris ceux qui naviguent au 
+          clavier ou utilisent des technologies d’assistance. Une attention particulière doit être 
+          portée à la gestion des interactions clavier, à l'implémentation des attributs ARIA, à la 
+          structure sémantique <code>ul > li</code>, ainsi qu'à une conception de code maintenable. En outre, 
+          il est crucial d'inclure des fonctionnalités spécifiques pour la navigation au clavier, 
+          telles qu'un bouton "skip-content" et un contrôle explicite des sous-menus.
+        </p>
+        
+        <H3>
+          Navigation au clavier
+        </H3>
+        
+        <p>
+          Une des premières étapes pour rendre une navigation accessible est de permettre une interaction 
+          complète via le clavier. Chaque élément de la navigation doit être accessible sans l'utilisation 
+          de la souris. Voici les points essentiels à respecter :
+        </p>
+
+        <ol class="text">
+          <li>
+            Bouton "skip-content" : Il est important d'ajouter un bouton de type "skip-content" au tout 
+            début de la page. Ce bouton permet aux utilisateurs de clavier de sauter directement au 
+            contenu principal sans devoir parcourir l'ensemble de la navigation. Ce bouton doit être 
+            le premier élément à recevoir le focus lorsqu’on utilise la touche Tab.
+
+
+              
+           
+
+          </li>
+          <li>
+            Contrôle des sous-menus via un bouton : La sous-navigation ne doit être accessible que 
+            lorsque celle-ci a été affichée volontairement par un bouton dropdown. En d'autres termes, 
+            les éléments de la sous-navigation ne doivent pas être dans le flux de navigation du clavier 
+            tant que l'utilisateur n'a pas activé le menu via un bouton associé. Cela améliore 
+            l'expérience utilisateur en évitant de "tabuler" à travers des éléments non visibles ou 
+            non pertinents.
+          </li>
+          <li>
+            Contrôle des sous-menus ouverts au hover via un bouton : Si un élément de la navigation 
+            primaire ouvre un sous-menu au survol (hover), il est essentiel de fournir un contrôle 
+            explicite au clavier. Pour cela, chaque lien qui déclenche un sous-menu doit inclure un 
+            bouton accessible via Tab pour que les utilisateurs de clavier puissent ouvrir et naviguer 
+            dans le sous-menu. Cette approche assure une parité entre les interactions souris et clavier.
+          </li>
+        </ol>
+
+        <h3>
+          Utilisation des attributs ARIA
+        </h3>
+        <p>
+          Les attributs ARIA (Accessible Rich Internet Applications) permettent de rendre des interfaces 
+          interactives plus compréhensibles pour les lecteurs d'écran. Quelques attributs essentiels pour 
+          la navigation incluent :
+        </p>
+        <ul class="text">
+          <li>
+            <code>aria-expanded</code>: Indique si un élément (comme un sous-menu) est ouvert ou fermé. Par 
+            exemple, sur un bouton qui contrôle un sous-menu, vous pouvez utiliser 
+            <code>aria-expanded="true"</code> lorsque le menu est ouvert, et <code>false</code> lorsqu'il est fermé.
+          </li>
+          <li>
+            <code>aria-haspopup</code> : Cet attribut indique qu’un élément déclenche un sous-menu ou un 
+            autre type d'élément de contrôle contextuel.
+          </li>
+          <li>
+            <code>aria-controls</code> : Utilisé pour définir la relation entre l’élément contrôleur 
+            (comme un bouton) et le contenu contrôlé (comme un menu). Cela aide les utilisateurs de 
+            lecteurs d'écran à comprendre les relations entre les éléments.
+          </li>
+          <li>
+            <code>role="navigation"</code> : Utilisez cet attribut sur les conteneurs de navigation 
+            pour indiquer explicitement leur fonction.
+          </li>
+        </ul>
+
+        <h3>Une structure sémantique et accessible</h3>
+        <p>
+          L'utilisation de la structure classique <code>ul > li</code> reste la meilleure pratique pour 
+          construire une navigation accessible et sémantiquement correcte. Voici pourquoi :
+        </p>
+        <ol class="text">
+          <li>
+            Sémantique naturelle : Un menu de navigation est souvent une liste de liens. 
+            L’utilisation des balises <code class="html">ul</code> et <code class="html">li</code> 
+            reflète naturellement cette structure, ce qui permet aux utilisateurs 
+            (et aux moteurs de recherche) de comprendre facilement que les éléments du menu sont liés.
+          </li>
+          <li>
+            Navigations imbriquées : Pour des menus déroulants ou des sous-niveaux de navigation, 
+            les listes non ordonnées <code class="html">ul</code> peuvent être imbriquées. Cela permet de représenter 
+            visuellement et sémantiquement des sous-menus tout en assurant la compatibilité avec 
+            les technologies d'assistance.
+          </li>
+        </ol>
+      </div>
+    </div>
+    <script src="js/nav.js"></script>
+    <script src="js/prism.js"></script>
+</body>
+</html>

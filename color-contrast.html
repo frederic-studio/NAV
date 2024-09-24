@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div id="main">
+        <H1 id="CONTRAST-RATIO">21</H1>
+        <div class="input-color-container">
+          <label for="color">Color palette</label>
+          <input type="color" name="color" id="color">
+          <label for="textColor">Color code</label>
+          <input type="text" name="textColor" id="textColor" placeholder="#000000" title="Other color format then hexadecimal need prefix [rgb(), rgba(), hsl()]">
+          <label for="textColor">Color opacity</label>
+          <input title="Luminosity" type="number" name="numberColor" id="numberColor" placeholder="100%" min="0" max="100">
+        </div>
+
+        <div class="input-color-container">
+            <label for="color">Color palette</label>
+            <input type="color" name="color" id="color">
+            <label for="textColor">Color code</label>
+            <input type="text" name="textColor" id="textColor" placeholder="#000000" title="Other color format then hexadecimal need prefix [rgb(), rgba(), hsl()]">
+            <label for="textColor">Color opacity</label>
+            <input title="Luminosity" type="number" name="numberColor" id="numberColor" placeholder="100%" min="0" max="100">
+          </div>
+      </div>
+      <script>
+const inputColor1 = document.getElementById('color');
+const textColor1 = document.getElementById('textColor');
+const luminosityInput1 = document.getElementById('numberColor');
+
+const inputColor2 = document.querySelectorAll('#color')[1];
+const textColor2 = document.querySelectorAll('#textColor')[1];
+const luminosityInput2 = document.querySelectorAll('#numberColor')[1];
+
+const contrastRatioDisplay = document.getElementById('CONTRAST-RATIO');
+
+let currentHSL1 = [0, 100, 50];
+let currentHSL2 = [0, 100, 50];
+
+// Regex for validation
+const hexRegex = /^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+const rgbRegex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
+const rgbaRegex = /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*([01]?\.?\d*)\s*\)$/;
+const hslRegex = /^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/;
+
+function validateAndProcessColor(input) {
+    input = input.trim();
+
+    if (hexRegex.test(input)) {
+        return [hexToHsl(input), ensureHexPrefix(input)];
+    } else if (rgbRegex.test(input)) {
+        return [rgbToHsl(input), ensureHexPrefix(rgbToHex(input))];
+    } else if (rgbaRegex.test(input)) {
+        return [rgbToHsl(input), ensureHexPrefix(rgbaToHex(input))];
+    } else if (hslRegex.test(input)) {
+        return [extractHSL(input), ensureHexPrefix(hslToHex(input))];
+    } else {
+        return [null, null];
+    }
+}
+
+function ensureHexPrefix(hex) {
+    return hex.charAt(0) !== '#' ? '#' + hex : hex;
+}
+
+function updateColorInputs(inputColor, textColor, luminosityInput, hexColor, hsl) {
+    inputColor.value = hexColor;
+    textColor.value = hexColor;
+    luminosityInput.value = hsl[2];
+}
+
+function addEventListeners(inputColor, textColor, luminosityInput, currentHSL, otherHSL) {
+    textColor.addEventListener('input', (event) => {
+        const value = event.target.value;
+        const [processedHSL, processedColor] = validateAndProcessColor(value);
+        
+        if (processedColor) {
+            currentHSL.splice(0, 3, ...processedHSL);
+            updateColorInputs(inputColor, textColor, luminosityInput, processedColor, currentHSL);
+            updateContrastRatio(currentHSL, otherHSL);
+        } else {
+            console.log("Invalid color format");
+        }
+    });
+
+    luminosityInput.addEventListener('input', (event) => {
+        const luminosity = event.target.value;
+        currentHSL[2] = parseInt(luminosity);
+
+        const hslString = `hsl(${currentHSL[0]}, ${currentHSL[1]}%, ${currentHSL[2]}%)`;
+        const hexColor = ensureHexPrefix(hslToHex(hslString));
+
+        updateColorInputs(inputColor, textColor, luminosityInput, hexColor, currentHSL);
+        updateContrastRatio(currentHSL, otherHSL);
+    });
+
+    inputColor.addEventListener('input', (event) => {
+        const hexColor = ensureHexPrefix(event.target.value);
+        const hsl = hexToHsl(hexColor);
+        currentHSL.splice(0, 3, ...hsl);
+        updateColorInputs(inputColor, textColor, luminosityInput, hexColor, currentHSL);
+        updateContrastRatio(currentHSL, otherHSL);
+    });
+}
+
+// Conversion functions
+function hexToRgb(hex) {
+    hex = hex.replace(/^#/, '');
+    if (hex.length === 3) {
+        hex = hex.split('').map(x => x + x).join('');
+    }
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+    return [r, g, b];
+}
+
+function rgbToHex(rgb) {
+    const [r, g, b] = rgb.match(/\d+/g).map(Number);
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function rgbaToHex(rgba) {
+    const [r, g, b] = rgba.match(/\d+/g).map(Number);
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function hexToHsl(hex) {
+    const rgb = hexToRgb(hex);
+    return rgbToHsl(rgb);
+}
+
+function rgbToHsl(rgb) {
+    let [r, g, b] = Array.isArray(rgb) ? rgb : rgb.match(/\d+/g).map(Number);
+    r /= 255, g /= 255, b /= 255;
+
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+}
+
+function hslToHex(hsl) {
+    const [h, s, l] = hsl.match(/\d+/g).map(Number);
+    const hDecimal = h / 360;
+    const sDecimal = s / 100;
+    const lDecimal = l / 100;
+
+    const hue2rgb = (p, q, t) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+    };
+
+    let r, g, b;
+    if (s === 0) {
+        r = g = b = lDecimal;
+    } else {
+        const q = lDecimal < 0.5 ? lDecimal * (1 + sDecimal) : lDecimal + sDecimal - lDecimal * sDecimal;
+        const p = 2 * lDecimal - q;
+        r = hue2rgb(p, q, hDecimal + 1/3);
+        g = hue2rgb(p, q, hDecimal);
+        b = hue2rgb(p, q, hDecimal - 1/3);
+    }
+
+    const toHex = x => {
+        const hex = Math.round(x * 255).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    };
+
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function extractHSL(hsl) {
+    return hsl.match(/\d+/g).map(Number);
+}
+
+function updateContrastRatio(hsl1, hsl2) {
+    const luminance1 = calculateRelativeLuminance(hslToRgb(hsl1));
+    const luminance2 = calculateRelativeLuminance(hslToRgb(hsl2));
+
+    const contrastRatio = calculateContrastRatio(luminance1, luminance2);
+    contrastRatioDisplay.textContent = contrastRatio.toFixed(2);
+}
+
+function hslToRgb(hsl) {
+    const [h, s, l] = hsl;
+    const hDecimal = h / 360;
+    const sDecimal = s / 100;
+    const lDecimal = l / 100;
+
+    let r, g, b;
+
+    if (s === 0) {
+        r = g = b = lDecimal;
+    } else {
+        const hue2rgb = (p, q, t) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1/6) return p + (q - p) * 6 * t;
+            if (t < 1/2) return q;
+            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        };
+
+        const q = lDecimal < 0.5 ? lDecimal * (1 + sDecimal) : lDecimal + sDecimal - lDecimal * sDecimal;
+        const p = 2 * lDecimal - q;
+        r = hue2rgb(p, q, hDecimal + 1/3);
+        g = hue2rgb(p, q, hDecimal);
+        b = hue2rgb(p, q, hDecimal - 1/3);
+    }
+
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+
+function calculateRelativeLuminance(rgb) {
+    const [r, g, b] = rgb.map(val => {
+        val /= 255;
+        return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function calculateContrastRatio(l1, l2) {
+    const lighter = Math.max(l1, l2);
+    const darker = Math.min(l1, l2);
+    return (lighter + 0.05) / (darker + 0.05);
+}
+
+// Initialize UI on page load
+window.addEventListener('load', () => {
+    const initialColor1 = ensureHexPrefix(inputColor1.value);
+    const initialColor2 = ensureHexPrefix(inputColor2.value);
+
+    currentHSL1 = hexToHsl(initialColor1);
+    currentHSL2 = hexToHsl(initialColor2);
+
+    updateColorInputs(inputColor1, textColor1, luminosityInput1, initialColor1, currentHSL1);
+    updateColorInputs(inputColor2, textColor2, luminosityInput2, initialColor2, currentHSL2);
+
+    addEventListeners(inputColor1, textColor1, luminosityInput1, currentHSL1, currentHSL2);
+    addEventListeners(inputColor2, textColor2, luminosityInput2, currentHSL2, currentHSL1);
+
+    updateContrastRatio(currentHSL1, currentHSL2);
+
+    // Add percentage spans
+    addPercentageSpan(luminosityInput1);
+    addPercentageSpan(luminosityInput2);
+});
+
+function addPercentageSpan(luminosityInput) {
+    const percentSpan = document.createElement('span');
+    percentSpan.textContent = '%';
+    luminosityInput.parentNode.insertBefore(percentSpan, luminosityInput.nextSibling);
+}
+      </script>
+</body>
+</html>
